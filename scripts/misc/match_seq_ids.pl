@@ -75,9 +75,6 @@ foreach my $cdba (@$cdbas) {
   }
   $sth->finish();
 
-  die ("Error: Core and Variation DB does not have same name sizes\nPlease check if new release has new seq_region names.\n")
-  unless((scalar @vd_names) == (keys %$id_mapping));
-
   # Check if all Core DB seq_region name values are in Variation DB
   foreach my $prev_seq_region_name ( keys %$id_mapping) {
       die ( "Row value: '$prev_seq_region_name' is not listed in $dbname.seq_region name column\n" ) if ( ! grep $_ eq $prev_seq_region_name, @vd_names);
@@ -102,7 +99,7 @@ foreach my $cdba (@$cdbas) {
 sub usage {
   print qq{
   Usage: perl update_seq_region_ids.pl -registry [registry_file] [OPTIONS]
-  Update seq_region_ids between releases. Check if any seq_region_ids have changed since the last release and update them if needed. 
+  Update seq_region_ids between core and variation.
   Options:
     -help    Print this message
     -dry_run Print update statements
